@@ -247,6 +247,25 @@ class Work < ApplicationRecord
     end
   end
 
+  def self.work_episodes_data(works, user)
+    work_ids = works.pluck(:id)
+    episodes = Episode.published.where(work_id: work_ids).select(:id, :work_id)
+    latest_statuses = LatestStatus.where(user: user, work_id: work_ids).select(:work_id, :watched_episode_ids)
+
+    work_ids.map do |work_id|
+      work_episodes = episodes.select { |e| e.work_id == work_id }
+      work_status = latest_statuses.select { |e| e.work_id == work_id }.first
+
+      {
+        work_id: work_id,
+        episodes: {
+          count: work_episodes.length,
+          watched_count: work_status&.watched_episode_ids&.length.presence || 0
+        }
+      }
+    end
+  end
+
   def self.watching_friends_data(work_ids, user)
     work_ids = work_ids.uniq
     status_kinds = %w(wanna_watch watching watched)

@@ -13,6 +13,7 @@ class LibrariesController < ApplicationController
       reverse
     paginate_per = @display_option == "grid_detailed" ? 8 : 20
     @seasons = Kaminari.paginate_array(@seasons).page(page).per(paginate_per)
+    @work_episodes_data = Work.work_episodes_data(@works, @user)
 
     if @display_option == "grid_detailed"
       @work_tags_data = Work.work_tags_data(@works, @user)

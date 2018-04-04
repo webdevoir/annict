@@ -42,9 +42,9 @@
         - if season.name == "all"
           - works = works.where(season_name: nil)
         - if @display_option == "grid_detailed"
-          = render "libraries/display_options/#{@display_option}", works: works, work_tags_data: @work_tags_data, work_comment_data: @work_comment_data, user: @user
+          = render "libraries/display_options/#{@display_option}", works: works, work_tags_data: @work_tags_data, work_comment_data: @work_comment_data, user: @user, work_episodes_data: @work_episodes_data
         - else
-          = render "works/display_options/#{@display_option}", works: works
+          = render "works/display_options/#{@display_option}", works: works, work_episodes_data: @work_episodes_data
     .text-center
       = paginate @seasons, window: 2
 - else
@@ -56,6 +56,7 @@ c-tabbar
 c-impression-button-modal
 
 - content_for :js_templates do
+  = render "application/js_templates/episode_progress"
   = render "application/js_templates/impression_button_modal"
   = render "application/js_templates/impression_button"
   = render "application/js_templates/share_button_facebook"

@@ -1,5 +1,11 @@
 .c-episode-progress {
   .progress {
-    height: 8px;
+    background-color: $ann-color-black-l3;
+    position: relative;
+  }
+
+  &__text {
+    left: 0;
+    position: absolute;
   }
 }

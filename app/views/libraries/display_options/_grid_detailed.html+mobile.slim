@@ -2,11 +2,13 @@
   - work_tags = work_tags_data.select { |d| d[:work_id] == work.id }.first[:work_tags]
   - work_tag_names = work_tags.map { |wt| { name: wt.name } }
   - work_comment = work_comment_data.select { |d| d[:work_id] == work.id }.first[:work_comment]
+  - work_episodes = work_episodes_data.select {|d| d[:work_id] == work.id}.first[:episodes]
   .c-card.p-3.mb-3
     .row
       .col-5
-        = link_to work_path(work) do
-          = ann_image_tag work.work_image, :attachment, size: "140x140", class: "img-fluid rounded"
+        = link_to work_path(work), class: "mb-1 d-inline-block" do
+          = ann_image_tag work.work_image, :attachment, size: "140x140", class: "img-fluid rounded img-thumbnail"
+        c-episode-progress :episodes-count="#{work_episodes[:count]}" :watched-episodes-count="#{work_episodes[:watched_count]}"
       .col-7.pl-0
         = link_to work.decorate.local_title, work_path(work), title: work.decorate.local_title, class: "d-inline-block"
         - if user_signed_in? && current_user.id == user.id

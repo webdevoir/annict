@@ -2,7 +2,7 @@
   .row.pl-3
     - works.each do |work|
       .col-4.p-0.pr-3.mb-3.u-lh-0
-        .u-lh-0
+        .u-lh-0.mb-1
           = link_to work_path(work), title: work.decorate.local_title do
             .c-hover-image
               .c-hover-image__image
@@ -12,3 +12,6 @@
                   = work.decorate.local_title
         - if page_category.in?(%w(works_season works_popular works_newest))
           c-status-selector :work-id="#{work.id}" size="small"
+        - elsif page_category.in?(%w(libraries_show))
+          - work_episodes = work_episodes_data.select {|d| d[:work_id] == work.id}.first[:episodes]
+          c-episode-progress :episodes-count="#{work_episodes[:count]}" :watched-episodes-count="#{work_episodes[:watched_count]}"
